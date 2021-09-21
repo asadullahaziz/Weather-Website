@@ -6,13 +6,37 @@ const path = require("path");
 // NPM Modules
 const axios = require("axios");
 const express = require("express");
+const hbs = require("hbs");
 
 // JS Includes
 
 
 const app = express();
+const developmentPort = 3000;
 
-// let cityName = "12wtf";
+// Define paths for Express Config
+const publicDirectoryPath = path.join(__dirname, "../public");
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
+
+// set up handlebars engine and views location
+app.set("view engine", "hbs");
+app.set("views", viewsPath);
+hbs.registerPartials(partialsPath);
+
+
+// set up static directory to serve
+app.use(express.static(publicDirectoryPath));
+
+// app.get("", (req, res) => {
+//     res.send();
+// });
+
+app.listen(developmentPort, () => {
+    console.log("Server is running on port " + developmentPort);
+});
+
+// let cityName = "Lahore";
 
 // const apiKey = "0ca7bf4c05d062862a327bd47b544cfe";
 // let url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityName)}&appid=${apiKey}&units=metric`;
