@@ -4,7 +4,7 @@
 const path = require("path");
 
 // NPM Modules
-const axios = require("axios");
+// const axios = require("axios");
 const express = require("express");
 const hbs = require("hbs");
 
@@ -28,9 +28,17 @@ hbs.registerPartials(partialsPath);
 // set up static directory to serve
 app.use(express.static(publicDirectoryPath));
 
-// app.get("", (req, res) => {
-//     res.send();
-// });
+app.get("", (req, res) => {
+    res.render("index", {title: "Weather App"});
+});
+
+app.get("/about", (req, res) => {
+    res.render("about");
+});
+
+app.get("/help", (req) => {
+    res.render("help");
+});
 
 app.listen(developmentPort, () => {
     console.log("Server is running on port " + developmentPort);
