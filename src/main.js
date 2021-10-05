@@ -7,8 +7,9 @@ import { join } from "path";
 import express, { static } from "express";
 import { registerPartials } from "hbs";
 
-// JS Includes
-
+// JS Imports
+import geocode from "./utilities/geocode";
+import weather from "./utilities/weather";
 
 const app = express();
 const developmentPort = 3000;
@@ -29,6 +30,30 @@ app.use(static(publicDirectoryPath));
 
 app.get("", (req, res) => {
     res.render("index", {title: "Weather App"});
+});
+
+// weather Forecast API
+app.get("/weather", (req, res) => {
+    if(!req.query.address) {
+        return res.send({error: "Address Not Provided"});
+    }
+    else {
+        geocode(req.query.address, (cords, error) => {
+            if(error) {
+                return req.send( {error} );
+            }
+            else {
+                weather(cords[1], cords[2], (weatherForecast, error) =>{
+                    if(error) {
+                        return req.send({error});
+                    }
+                    else {
+                        req.send(weatherForecast);
+                    }
+                });
+            }
+        });
+    }
 });
 
 app.get("/about", (req, res) => {
