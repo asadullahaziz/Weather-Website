@@ -1,32 +1,32 @@
 "use strict";
 
 // Core Modules
-import { join } from "path";
+const path = require("path");
 
 // NPM Modules
-import express, { static } from "express";
-import { registerPartials } from "hbs";
+const express = require("express");
+const hbs = require("hbs");
 
 // JS Imports
-import geocode from "./utilities/geocode";
-import weather from "./utilities/weather";
+const geocode = require("./utilities/geocode");
+const weather = require("./utilities/weather");
 
 const app = express();
 const developmentPort = 3000;
 
 // Define paths for Express Config
-const publicDirectoryPath = join(__dirname, "../public");
-const viewsPath = join(__dirname, "../templates/views");
-const partialsPath = join(__dirname, "../templates/partials");
+const publicDirectoryPath = path.join(__dirname, "../public");
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
 
 // set up handlebars engine and views location
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
-registerPartials(partialsPath);
+hbs.registerPartials(partialsPath);
 
 
 // set up static directory to serve
-app.use(static(publicDirectoryPath));
+app.use(express.static(publicDirectoryPath));
 
 app.get("", (req, res) => {
     res.render("index", {title: "Weather App"});
@@ -40,15 +40,15 @@ app.get("/weather", (req, res) => {
     else {
         geocode(req.query.address, (cords, error) => {
             if(error) {
-                return req.send( {error} );
+                return res.send( {error} );
             }
             else {
-                weather(cords[1], cords[2], (weatherForecast, error) =>{
+                weather(cords[1], cords[0], (weatherForecast, error) =>{
                     if(error) {
-                        return req.send({error});
+                        return res.send({error});
                     }
                     else {
-                        req.send(weatherForecast);
+                        res.send(weatherForecast);
                     }
                 });
             }
@@ -60,7 +60,7 @@ app.get("/about", (req, res) => {
     res.render("about");
 });
 
-app.get("/help", (req) => {
+app.get("/help", (req, res) => {
     res.render("help");
 });
 

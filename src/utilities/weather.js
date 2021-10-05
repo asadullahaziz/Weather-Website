@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 
 function weather(lat, lon, callback) {
     const apiKey = "0ca7bf4c05d062862a327bd47b544cfe";

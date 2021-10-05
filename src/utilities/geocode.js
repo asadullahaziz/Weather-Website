@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 
 function geocode(address, callback) {
     const apiKey = "pk.eyJ1IjoiYWhtYWRheml6IiwiYSI6ImNrcG52MGd4cjAzNnEycHBiODQwYTU0YjAifQ.xfd6xfvYnhC_AtV5hj6YBQ";
