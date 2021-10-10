@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 function weather(lat, lon, callback) {
-    const apiKey = "0ca7bf4c05d062862a327bd47b544cfe";
+    const apiKey = "your Api key";
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
     
     axios(url)
