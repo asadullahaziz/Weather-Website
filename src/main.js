@@ -56,12 +56,16 @@ app.get("/weather", (req, res) => {
     }
 });
 
+app.get("/help", (req, res) => {
+    res.render("help");
+});
+
 app.get("/about", (req, res) => {
     res.render("about");
 });
 
-app.get("/help", (req, res) => {
-    res.render("help");
+app.get("*", (req, res) => {
+    res.render("404", {title: "Error Page", errorMessage:"Error 404 Page Not Found. Visit the above availabe pages on this website."});
 });
 
 app.listen(developmentPort, () => {
